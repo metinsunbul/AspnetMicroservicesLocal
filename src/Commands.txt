@@ -1,0 +1,71 @@
+docker pull mongo
+docker run -d -p 27017:27017 --name shopping-mongo mongo
+docker ps
+docker logs -f shopping-mongo
+
+--open interactive terminal
+docker exec -it shopping-mongo /bin/bash
+
+ls
+mongo
+show dbs
+use CatalogDb
+db.createCollection('Products')
+db.Products.insertMany([{ 'Name':'Asus Laptop','Category':'Computers', 'Summary':'Summary', 'Description':'Description', 'ImageFile':'ImageFile', 'Price':54.93 }, { 'Name':'HP Laptop', 'Category':'Computers', 'Summary':'Summary', 'Decription':'Description', 'ImageFile':'ImageFile', 'Price':88.93 } ])
+ db.Products.find({}).pretty()
+ db.Products.remove({})
+ show databases
+ show collections
+
+
+
+ --to run docker compose yml file (right click docker-compose and open in Terminal)
+ ls
+ docker ps --check running container
+ --stop the running version of mongo instance to avoid any conflict
+ docker stop d299
+ docker rm d299
+ docker images
+  docker rmi d34d
+
+
+  docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml up -d
+  docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
+
+  docker ps
+  docker ps -aq
+  --stop and remove all of the containers from local using the below commands
+  docker stop $(docker ps -aq)
+  docker rm $(docker ps -aq)
+
+  docker rmi $(docker images -q)
+
+  --remove unnamed images
+  docker system prune
+
+  docker images
+
+  --mongo client image to visualize mongo database 
+  docker run -d -p 3000:3000 mongoclient/mongoclient  
+
+  docker ps
+
+
+
+  ----------------pull REDIS images for basket.API
+  docker pull redis
+  docker images
+  docker run -d -p 6379:6379 --name aspnetrunLocal-redis redis
+  docker ps
+
+
+  Some useful docker commands For troubleshooting in docker container
+  docker logs -f aspnetrunLocal-redis
+  --inspect --> runs command inside redis container  , -it means interactive terminal
+  docker exec -it aspnetrunLocal-redis /bin/bash
+  redis-cli
+  ping
+  set key value
+  get key
+
+

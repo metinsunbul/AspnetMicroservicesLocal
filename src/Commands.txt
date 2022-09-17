@@ -68,4 +68,8 @@ db.Products.insertMany([{ 'Name':'Asus Laptop','Category':'Computers', 'Summary'
   set key value
   get key
 
+  Install-Package Microsoft.Extensions.Caching.StackExchangeRedis
+  Update-Package -ProjectName Basket.API
+
+
 

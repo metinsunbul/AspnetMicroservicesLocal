@@ -71,5 +71,12 @@ db.Products.insertMany([{ 'Name':'Asus Laptop','Category':'Computers', 'Summary'
   Install-Package Microsoft.Extensions.Caching.StackExchangeRedis
   Update-Package -ProjectName Basket.API
 
+  docker stop ad98
+  docker ps
+  docker ps -a
+  docker rm ad98
+  docker images
+  docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+
 
 

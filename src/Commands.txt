@@ -79,4 +79,12 @@ db.Products.insertMany([{ 'Name':'Asus Laptop','Category':'Computers', 'Summary'
   docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
 
 
+  ---Portainer -> Open-source Container Management portal
+  --add portainer into dockor-compose service
+  --after adding service and its configuration detail accorfingly to docker-compose.yml and docker-compose.override.yml file  run the below command
+  docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+  docker ps
+
+
+
 

@@ -11,6 +11,7 @@ namespace Discount.API.Extensions
 {
     public static class HostExtensions
     {
+        //Note Migration and seeding class
 
         public static IHost MigrateDatabase<TContext>(this IHost host, int? retry = 0)
         {

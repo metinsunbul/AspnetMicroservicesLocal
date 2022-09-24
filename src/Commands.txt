@@ -86,5 +86,28 @@ db.Products.insertMany([{ 'Name':'Asus Laptop','Category':'Computers', 'Summary'
   docker ps
 
 
+  --SET UP POSTGRESQL as discount service db
+  --Setup pgAdmin Management Portal for PostreSQL 
+  docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+  docker ps
+
+  --Containerize Discount Microservices with postgreSQL database using Docker Compose (Use Dapper as mini ORM)
+
+  --install packages via Package Manager Console
+  --for postgreSQL
+  Install-Package Npgsql
+  --For Dapper
+  Install-Package Dapper
+  Update-Package -ProjectName Discount.API
+
+  --Local sql postgreSql database
+   "DatabaseSettings": {
+    "ConnectionString":  "Server=localhost;Port=5432;Database=DiscountDb;User Id=admin;Password=admin1234;"
+  },
+  --When dockerizing or containerizing we should override this connectionstring name(Server=localhost) with the docker container name
+
+
+
+
 
 

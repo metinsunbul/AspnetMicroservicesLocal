@@ -106,6 +106,18 @@ db.Products.insertMany([{ 'Name':'Asus Laptop','Category':'Computers', 'Summary'
   },
   --When dockerizing or containerizing we should override this connectionstring name(Server=localhost) with the docker container name
 
+  --Containerize Discount Microservices with PostreSQL using docker-compose
+
+  --Migration and seedings of postgresql 
+  static IHost MigrateDatabase<TContext>(this IHost host, int? retry = 0)
+  --this retry mechanism used in case the discount is up and postgresql(container) is not ready. 
+  if (retryForAvailability < 50) //Convert this retry operation using polly for the microservices resilience.(It helps to make resilience of microservices with creating policies on retry and circut-breaker design patterns )
+   
+
+   docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+   docker ps
+   docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
+
 
 
 

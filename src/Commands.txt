@@ -119,7 +119,13 @@ db.Products.insertMany([{ 'Name':'Asus Laptop','Category':'Computers', 'Summary'
    docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
 
 
+   --Discount.Grpc microservices with PostgreSQL
+   Update-Package -ProjectName Discount.Grpc
+   
+   docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+   docker ps
 
-
+   --install automapper via Packcage manager console
+   Install-Package AutoMapper.Extensions.Microsoft.DependencyInjection
 
 

@@ -128,4 +128,5 @@ db.Products.insertMany([{ 'Name':'Asus Laptop','Category':'Computers', 'Summary'
    --install automapper via Packcage manager console
    Install-Package AutoMapper.Extensions.Microsoft.DependencyInjection
 
+   --Consume Discount Grpc service from Basket Api microservice
 

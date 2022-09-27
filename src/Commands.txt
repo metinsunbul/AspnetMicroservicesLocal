@@ -130,3 +130,15 @@ db.Products.insertMany([{ 'Name':'Asus Laptop','Category':'Computers', 'Summary'
 
    --Consume Discount Grpc service from Basket Api microservice
 
+   --Contianerize Discount Grpc Microservices with PostgreSQL
+   --In order to add docker file and manage the docker compose yml file we use visual studio Container Orchestrator support 
+
+   --Docker Environment->Basket.API integration with Discount.Grpc
+   --Any change in basket.API  require recreation of its image  which means using --build command or as the second option we can remove all the container and images to let it recreate all the images
+
+   docker images
+   basketapi image exists but some code changes occured so we would like to rebuilding the basket api image with the existing docker file in order to that use the below command
+
+   docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build
+   docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+   docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down

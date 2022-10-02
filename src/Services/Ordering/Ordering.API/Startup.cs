@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Ordering.Application;
+using Ordering.Infrastructure;
 
 namespace Ordering.API
 {
@@ -22,7 +23,7 @@ namespace Ordering.API
         {
             //AddingApp & InfrastructureServicesIntoSingleExtensionMethod
             services.AddApplicationServices();
-            //services.AddInfrastructureServices();
+            services.AddInfrastructureServices(Configuration);
 
 
             services.AddControllers();

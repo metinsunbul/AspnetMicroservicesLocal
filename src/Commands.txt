@@ -155,3 +155,8 @@ db.Products.insertMany([{ 'Name':'Asus Laptop','Category':'Computers', 'Summary'
 
    --Ordering.Infrastructure
  
+ --Migration
+ --add the below package to Ordering.API
+ Install-Package Microsoft.EntityFrameworkCore.Tools
+ --Add migration to Ordering.Infrastructure
+ Add-Migration InitialCreate

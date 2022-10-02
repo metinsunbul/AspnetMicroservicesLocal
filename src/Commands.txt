@@ -142,3 +142,16 @@ db.Products.insertMany([{ 'Name':'Asus Laptop','Category':'Computers', 'Summary'
    docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build
    docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
    docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
+
+
+   --Order.API video 66
+   --install MediatR package via Package Manager Console
+   Install-Package MediatR.Extensions.Microsoft.DependencyInjection
+
+   --AddingApp & InfrastructureServicesIntoSingleExtensionMethod(ApplicationServiceRegistration)
+   Update-Package
+   Install-Package AutoMapper.Extensions.Microsoft.DependencyInjection
+   Install-Package FluentValidation.DependencyInjectionExtensions
+
+   --Ordering.Infrastructure
+ 

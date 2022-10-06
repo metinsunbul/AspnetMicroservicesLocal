@@ -160,3 +160,8 @@ db.Products.insertMany([{ 'Name':'Asus Laptop','Category':'Computers', 'Summary'
  Install-Package Microsoft.EntityFrameworkCore.Tools
  --Add migration to Ordering.Infrastructure
  Add-Migration InitialCreate
+
+ -Dockerize Order.API
+ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+ docker ps
+ docker-compose -f docker-compose.yml -f docker-compose.override.yml down

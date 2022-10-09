@@ -165,3 +165,36 @@ db.Products.insertMany([{ 'Name':'Asus Laptop','Category':'Computers', 'Summary'
  docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
  docker ps
  docker-compose -f docker-compose.yml -f docker-compose.override.yml down
+
+ --RABBITMQ
+ --Add RabbitMQ imaje into docker-compose.yml file
+ --After rabbitmq image into docker-compose.yml  and its configuration into docker-compose.override.yml file run the below command to run container in our local environment
+ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+
+ --install the required package for rabbitmq integration via package manager console
+ Install-Package MassTransit
+ Install-Package MassTransit.RabbitMQ
+ Install-Package MassTransit.AspNetCore
+
+ --Publishing message from Basket.API
+ --Donwload Automapper for mapping BasketCheckout model to BasketCheckoutEvent model via Package manager console
+ Install-Package AutoMapper.Extensions.Microsoft.DependencyInjection
+ Update-Package -ProjectName Basket.API
+
+ --Consume message by Order.API
+ Install-Package MassTransit
+ Install-Package MassTransit.RabbitMQ
+ Install-Package MassTransit.AspNetCore
+ Update-Package -ProjectName Ordering.API
+
+
+
+
+-- NOTE: as you added a new project to the solution, don't forget update docker file accordingly
+ -- COPY ["Services/Ordering/Ordering.API/Ordering.API.csproj", "Services/Ordering/Ordering.API/"]
+ -- COPY ["Services/Ordering/Ordering.Application/Ordering.Application.csproj", "Services/Ordering/Ordering.Application/"]
+ -- COPY ["Services/Ordering/Ordering.Domain/Ordering.Domain.csproj", "Services/Ordering/Ordering.Domain/"]
+ -- COPY ["Services/Ordering/Ordering.Infrastructure/Ordering.Infrastructure.csproj", "Services/Ordering/Ordering.Infrastructure/"]
+
+
+   

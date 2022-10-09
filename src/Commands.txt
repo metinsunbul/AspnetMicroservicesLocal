@@ -187,6 +187,20 @@ db.Products.insertMany([{ 'Name':'Asus Laptop','Category':'Computers', 'Summary'
  Install-Package MassTransit.AspNetCore
  Update-Package -ProjectName Ordering.API
 
+ -- Containerize basket and order microservice with rabbitMQ using docker-compose
+ -- Since we added new project reference and update(recreated) docker file (COPY ["BuildingBlocks/EventBus.Messages/EventBus.Messages.csproj", "BuildingBlocks/EventBus.Messages/"]) 
+-- we have to 2 options for docker images either Delete image and recreate the image using docker-compose up command
+-- docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+-- or use docker --build command to rebuild the images with newest docker files again
+-- we not only update docker-compose.override.yml file but also changed docker file 
+-- so we have to update those images
+--stop and removes all contianer using below command on local docker environment
+docker-compose -f docker-compose.yml -f docker-compose.override.yml down
+-- see all the running container on the local docker environment using below command
+docker ps 
+--use the below build command to create new image given the changed docker file
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build
+
 
 
 

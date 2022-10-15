@@ -210,5 +210,9 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build
  -- COPY ["Services/Ordering/Ordering.Domain/Ordering.Domain.csproj", "Services/Ordering/Ordering.Domain/"]
  -- COPY ["Services/Ordering/Ordering.Infrastructure/Ordering.Infrastructure.csproj", "Services/Ordering/Ordering.Infrastructure/"]
 
-
+ --OcelotApiGateway 114.avi
+ --install package via package manager console
+ Install-Package Ocelot
+ Update-Package -ProjectName OcelotApiGw
+ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
    

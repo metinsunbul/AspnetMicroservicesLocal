@@ -72,7 +72,15 @@
         }
       ],
       "UpstreamPathTemplate": "/Basket/Checkout",
-      "UpstreamHttpMethod": [ "POST" ]
+      "UpstreamHttpMethod": [ "POST" ],
+      //apply rate limit on the gatewy api endpoint to avoid overloading
+      "RateLimitOptions": {
+        "ClientWhitelist": [], //to avoid rate limiting on the specified client
+        "EnableRateLimiting": true,
+        "Period": "3s",
+        "PeriodTimespan": 1, //the duraction for an client to  retry the request  after blocking
+        "Limit": 1 //Max # of request a client can make in a defined period
+      }
     },
     //Discount API
     {

@@ -11,7 +11,8 @@
         }
       ],
       "UpstreamPathTemplate": "/Catalog",
-      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ]
+      "UpstreamHttpMethod": [ "GET", "POST", "PUT" ],
+      "FileCacheOptions": { "TtlSeconds": 1}//during the ttlSecond this will not consume the actual internal services, the response would be coming from cache
     },
     {
       "DownstreamPathTemplate": "/api/v1/Catalog/{id}",

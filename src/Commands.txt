@@ -215,4 +215,6 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build
  Install-Package Ocelot
  Update-Package -ProjectName OcelotApiGw
  docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
-   
+   --Cache package manager for caching  ocelot responses
+   Install-Package Ocelot.Cache.CacheManager
+   Install-Package Ocelot.Cache.CacheManager -version "17.0.0"

@@ -218,3 +218,9 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build
    --Cache package manager for caching  ocelot responses
    Install-Package Ocelot.Cache.CacheManager
    Install-Package Ocelot.Cache.CacheManager -version "17.0.0"
+   --Containerie Ocelo Api Gateway Microservices using docker-compose
+   --After adding Container ocrhestration support from visual studio 
+   --(clicking on the project add Container orchestration supoort) 
+   --Dockerfile.yml file added and docker-compose.yml file updated accordingly
+   docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+

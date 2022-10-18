@@ -223,4 +223,7 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build
    --(clicking on the project add Container orchestration supoort) 
    --Dockerfile.yml file added and docker-compose.yml file updated accordingly
    docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+   docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
 
+--Api Gateway Aggregate pattern vs. Api Gateway Route pattern
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d

@@ -227,3 +227,5 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build
 
 --Api Gateway Aggregate pattern vs. Api Gateway Route pattern
 docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
+

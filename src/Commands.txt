@@ -233,4 +233,6 @@ docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
 dotnet tool install --global dotnet-ef
 dotnet ef migrations add MyFirstMigration
  dotnet ef database update
+ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
 

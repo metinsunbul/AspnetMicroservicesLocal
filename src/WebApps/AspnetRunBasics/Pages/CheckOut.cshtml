@@ -30,9 +30,13 @@
                 @foreach (var item in Model.Cart.Items)
                 {
                     <li class="list-group-item d-flex justify-content-between lh-condensed">
-                        <div>
+                       @* <div>
                             <h6 class="my-0">@item.Product.Name</h6>
                             <small class="text-muted">@item.Product.Summary</small>
+                        </div>*@
+                         <div>
+                            <h6 class="my-0">@item.ProductName</h6>
+                            <small class="text-muted">@item.ProductName</small>
                         </div>
                         <span class="text-muted">$@item.Price</span>
                     </li>
@@ -95,8 +99,8 @@
                 </div>
 
                 <div class="mb-3">
-                    <label asp-for="Order.AddressLine" for="address">Address</label>
-                    <input asp-for="Order.AddressLine" type="text" class="form-control" id="address" placeholder="1234 Main St" required>
+                    <label asp-for="Order.AddrressLine" for="address">Address</label>
+                    <input asp-for="Order.AddrressLine" type="text" class="form-control" id="address" placeholder="1234 Main St" required>
                     <div class="invalid-feedback">
                         Please enter your shipping address.
                     </div>
@@ -151,16 +155,16 @@
 
                 <div class="d-block my-3">
                     <div class="custom-control custom-radio">
-                        <input asp-for="Order.PaymentMethod" id="credit" name="paymentMethod" type="radio" value="Credit card" class="custom-control-input" checked required>
-                        <label asp-for="Order.PaymentMethod" class="custom-control-label" for="credit">Credit card</label>
+                        <input asp-for="Order.PaymentMoethod" id="credit" name="paymentMethod" type="radio" value="Credit card" class="custom-control-input" checked required>
+                        <label asp-for="Order.PaymentMoethod" class="custom-control-label" for="credit">Credit card</label>
                     </div>
                     <div class="custom-control custom-radio">
-                        <input asp-for="Order.PaymentMethod" id="debit" name="paymentMethod" type="radio" value="Debit card" class="custom-control-input" required>
-                        <label asp-for="Order.PaymentMethod" class="custom-control-label" for="debit">Debit card</label>
+                        <input asp-for="Order.PaymentMoethod" id="debit" name="paymentMethod" type="radio" value="Debit card" class="custom-control-input" required>
+                        <label asp-for="Order.PaymentMoethod" class="custom-control-label" for="debit">Debit card</label>
                     </div>
                     <div class="custom-control custom-radio">
-                        <input asp-for="Order.PaymentMethod" id="paypal" name="paymentMethod" type="radio" value="Paypal" class="custom-control-input" required>
-                        <label asp-for="Order.PaymentMethod" class="custom-control-label" for="paypal">Paypal</label>
+                        <input asp-for="Order.PaymentMoethod" id="paypal" name="paymentMethod" type="radio" value="Paypal" class="custom-control-input" required>
+                        <label asp-for="Order.PaymentMoethod" class="custom-control-label" for="paypal">Paypal</label>
                     </div>
                 </div>
                 <div class="row">

@@ -233,8 +233,20 @@ docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
 dotnet tool install --global dotnet-ef
 dotnet ef migrations add MyFirstMigration
  dotnet ef database update
- docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
 docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
 
---test
+
+
+
+--ElasticSearch and Kibana
+-https://hub.docker.com/_/elasticsearch/
+-https://hub.docker.com/_/kibana/
+-https://github.com/thecarlo/elastic-kibana-netcore-serilog/blob/master/src/docker/docker-compose.yml
+
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
+
+
+
 

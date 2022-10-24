@@ -1,5 +1,6 @@
 ﻿using AspnetRunBasics.Extensions;
 using AspnetRunBasics.Models;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
@@ -10,26 +11,35 @@ namespace AspnetRunBasics.Services
     public class CatalogService : ICatalogService
     {
         private readonly HttpClient _client;
+        private readonly ILogger<CatalogService> _logger;
 
-        public CatalogService(HttpClient client)
+        public CatalogService(HttpClient client, ILogger<CatalogService> logger)
         {
             _client = client ?? throw new ArgumentNullException(nameof(client));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
-        public async Task<CatalogModel> CreateCatalog(CatalogModel model)
-        {
-            var response = await _client.PostAsJson($"/Catalog", model);
-            if (response.IsSuccessStatusCode)
-                return await response.ReadContentAs<CatalogModel>();
-            else
-            {
-                throw new Exception("Something went wrong when calling api.");
-            }
-        }
+
 
         public async Task<IEnumerable<CatalogModel>> GetCatalog()
         {
+            //_logger.LogInformation("Getting Catalog Products from url: {url}", _client.BaseAddress);
+            _logger.LogDebug("Getting Catalog Products from url: {url}", _client.BaseAddress);
+
             var response = await _client.GetAsync("/Catalog");
             return await response.ReadContentAs<List<CatalogModel>>();
+
+            //try
+            //{
+
+            //    var response = await _client.GetAsync("/Catalog");
+            //    return await response.ReadContentAs<List<CatalogModel>>();
+
+            //}
+            //catch (Exception ex)
+            //{
+            //    _logger.LogError(ex, "An error occured while retrieving Catalog!");
+            //}
+            //return null;
         }
 
         public async Task<CatalogModel> GetCatalog(string id)
@@ -43,6 +53,18 @@ namespace AspnetRunBasics.Services
             var response = await _client.GetAsync($"/Catalog/GetProductByCategory/{category}");
             return await response.ReadContentAs<List<CatalogModel>>();
         }
+
+        public async Task<CatalogModel> CreateCatalog(CatalogModel model)
+        {
+            var response = await _client.PostAsJson($"/Catalog", model);
+            if (response.IsSuccessStatusCode)
+                return await response.ReadContentAs<CatalogModel>();
+            else
+            {
+                throw new Exception("Something went wrong when calling api.");
+            }
+        }
+
 
     }
 }

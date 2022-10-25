@@ -247,6 +247,12 @@ docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
 docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
 docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
 
+--Install and configure serilog for elastic search and Kibana sink integration
+Install-Package Serilog.AspNetCore
+Install-Package Serilog.Enrichers.Environment
+Install-Package Serilog.Sinks.Elasticsearch
+
+
 
 
 

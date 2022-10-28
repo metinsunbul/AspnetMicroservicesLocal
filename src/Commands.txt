@@ -302,5 +302,12 @@ catalog.api:
 in docker-compose.override.yml 
 
 
+--Rebuilding all docker microservice
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build
+
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
+
+
 
 

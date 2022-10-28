@@ -253,6 +253,54 @@ Install-Package Serilog.Enrichers.Environment
 Install-Package Serilog.Sinks.Elasticsearch
 
 
+--Since we've update all microservices (Creating a new class library(Common.Logging) and adding project reference for all microservice)
+--So that's why we should recreate the docker files and also we should recreate and rebuild docker images with the new implementations when synching the elasticSearch and Kibana
+--Delete and recreate docker file in order to iclude the newly added reference(<ProjectReference Include="..\..\..\BuildingBlocks\Common.Logging\Common.Logging.csproj" />) to Docker file
+
+--Containerize all microservices with using serilog and elastic search
+--Dont forget prior to containerizing all micro service adjust the configuration in the appsettings("Uri": "http://localhost:9200") it is used the for container
+--running on our local container. Adjust it in the docker-compose.override.yml file on the docker environment
+
+--local configuration--connect elastic search locally (development)
+"ElasticConfiguration": {
+    "Uri": "http://localhost:9200"
+  },
+
+--docker configuration--connect elastic search on docket environment, override the configuration file with the url(- "ElasticConfiguration:Uri=http://elasticsearch") over the development url("Uri": "http://localhost:9200") app.setting in order to connect elastic search on the docker environmen
+- "ElasticConfiguration:Uri=http://elasticsearch"
+--As below as an example done. It sould be done for all microservices using elastic search
+catalog.api:
+    container_name: catalog.api
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "DatabaseSettings:ConnectionString=mongodb://catalogdb:27017"
+      - "ElasticConfiguration:Uri=http://elasticsearch"
+
+--Also change Kibana elastic search url from  ELASTICSEARCH_URL=http://localhost:9200 to ELASTICSEARCH_URL=http://elasticsearch in docker-compose.override.yml
+--Replace 
+    kibana:
+        container_name: kibana
+        environment:
+          - ELASTICSEARCH_URL=http://localhost:9200
+        depends_on:
+          - elasticsearch
+        ports:
+          - 5601:5601
+        networks:
+          - elastic
+--With
+    kibana:
+        container_name: kibana
+        environment:
+          - ELASTICSEARCH_URL=http://elasticsearch
+        depends_on:
+          - elasticsearch
+        ports:
+          - 5601:5601
+        networks:
+          - elastic
+in docker-compose.override.yml 
+
 
 
 

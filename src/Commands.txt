@@ -309,5 +309,16 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
 docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
 
 
+--Microservices Resilience and Fault Tolerance with Applying Retry And Circuit Breaker Pattern using POLLY
+--Apply Retry Pattern with POLLY
+--Polly oficial github repository
+https://github.com/App-vNext/Polly
+Install-Package Polly
+--set Default project ApiGateway\Shopping.Aggregator in Package Manager Console
+Install-Package Microsoft.Extensions.Http.Polly
+
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
+
 
 

@@ -324,6 +324,9 @@ docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
 --set Default project WebApps\AspnetRunBasics in Package Manager Console
 Install-Package Microsoft.Extensions.Http.Polly
 
+--Using Polly for database migration retryies for ordering microservices
+--set Default project Services\Ordering\Ordering.API in Package Manager Console
+Install-Package Polly
 
 
 

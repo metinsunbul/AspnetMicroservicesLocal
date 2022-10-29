@@ -320,5 +320,10 @@ Install-Package Microsoft.Extensions.Http.Polly
 docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
 docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
 
+--Do the above step for client application
+--set Default project WebApps\AspnetRunBasics in Package Manager Console
+Install-Package Microsoft.Extensions.Http.Polly
+
+
 
 

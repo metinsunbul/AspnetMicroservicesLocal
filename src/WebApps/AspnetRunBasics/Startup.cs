@@ -5,7 +5,11 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Polly;
+using Polly.Extensions.Http;
+using Serilog;
 using System;
+using System.Net.Http;
 
 namespace AspnetRunBasics
 {
@@ -26,16 +30,58 @@ namespace AspnetRunBasics
 
             services.AddHttpClient<ICatalogService, CatalogService>(c =>
                 c.BaseAddress = new Uri(Configuration["ApiSettings:GatewayAddress"]))
-                .AddHttpMessageHandler<LoggingDelegatingHandler>();
+                .AddHttpMessageHandler<LoggingDelegatingHandler>()
+                .AddPolicyHandler(GetRetryPolicy()) //Advanced retry policy pattern -> AddPolicyHandler is an extension method provided by HttpClient
+                .AddPolicyHandler(GetCircuitBreakerPolicy()); //Advanced circuit breaker policy pattern -> AddPolicyHandler is an extension method provided by HttpClient  
+
             services.AddHttpClient<IBasketService, BasketService>(c =>
                 c.BaseAddress = new Uri(Configuration["ApiSettings:GatewayAddress"]))
-                .AddHttpMessageHandler<LoggingDelegatingHandler>();
+                .AddHttpMessageHandler<LoggingDelegatingHandler>()
+                .AddPolicyHandler(GetRetryPolicy())
+                .AddPolicyHandler(GetCircuitBreakerPolicy());
+
             services.AddHttpClient<IOrderService, OrderService>(c =>
                 c.BaseAddress = new Uri(Configuration["ApiSettings:GatewayAddress"]))
-                .AddHttpMessageHandler<LoggingDelegatingHandler>();
+                .AddHttpMessageHandler<LoggingDelegatingHandler>()
+                .AddPolicyHandler(GetRetryPolicy())
+                .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddRazorPages();
         }
+
+        private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+        {
+            // Retry a specified number of times, using a function to
+            // calculate the duration to wait between retries based on
+            // the current retry attempt (allows for exponential back-off)
+            // In this case will wait for
+            //  2 ^ 1 = 2 seconds then
+            //  2 ^ 2 = 4 seconds then
+            //  2 ^ 3 = 8 seconds then
+            //  2 ^ 4 = 16 seconds then
+            //  2 ^ 5 = 32 seconds
+            return HttpPolicyExtensions
+                    .HandleTransientHttpError()
+                    .WaitAndRetryAsync(
+                        retryCount: 5,
+                        sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                        onRetry: (exception, retryCount, context) =>
+                        {
+                            Log.Error($"Retry {retryCount} of {context.PolicyKey} at {context.OperationKey}, due to: {exception}.");
+                        });
+        }
+
+        private static IAsyncPolicy<HttpResponseMessage> GetCircuitBreakerPolicy()
+        {
+            return HttpPolicyExtensions
+                   .HandleTransientHttpError()
+                   .CircuitBreakerAsync(
+                       handledEventsAllowedBeforeBreaking: 5,
+                       durationOfBreak: TimeSpan.FromSeconds(30)
+                   );
+        }
+
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

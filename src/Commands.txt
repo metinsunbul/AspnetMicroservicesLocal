@@ -352,3 +352,14 @@ Install-Package AspNetCore.HealthChecks.UI.Client -v 5.0.1
 docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
 docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
 
+
+
+--Adding HealthCheck for basket api microservices with checking redis and rabbirMq connection
+--set Default project Services\Basket\Basket.API in Package Manager Console
+Install-Package AspNetCore.HealthChecks.Redis
+
+Install-Package AspNetCore.HealthChecks.UI.Client --for returning json instead of status(healthy, degraded..)
+Install-Package Microsoft.AspNetCore.Diagnostics.HealthChecks
+Install-Package Microsoft.Extensions.Diagnostics.HealthChecks
+
+

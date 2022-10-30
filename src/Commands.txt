@@ -346,6 +346,8 @@ Install-Package Microsoft.AspNetCore.Diagnostics.HealthChecks
 --set Default project Services\Catalog\Catalog.API in Package Manager Console
 Install-Package AspNetCore.HealthChecks.MongoDb
 
+--In order to return json from HealthCeheck rather than status(healthy, degraded)
+Install-Package AspNetCore.HealthChecks.UI.Client -v 5.0.1
 
 docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
 docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down

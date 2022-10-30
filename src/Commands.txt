@@ -363,3 +363,9 @@ Install-Package Microsoft.AspNetCore.Diagnostics.HealthChecks
 Install-Package Microsoft.Extensions.Diagnostics.HealthChecks
 
 
+--Adding HealthCheck for discount api microservices with checking postgre sql
+--set Default project Services\Discount\Discount.API in Package Manager Console
+Install-Package AspNetCore.HealthChecks.Npgsql
+Install-Package AspNetCore.HealthChecks.UI.Client -v 5.0.1 --for returning json instead of status(healthy, degraded..)
+
+

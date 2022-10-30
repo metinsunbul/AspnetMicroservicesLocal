@@ -3,6 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Npgsql;
+using Polly;
+using System;
 
 namespace Discount.Grpc.Extensions
 {
@@ -10,9 +12,10 @@ namespace Discount.Grpc.Extensions
     {
         //Note Migration and seeding class
 
-        public static IHost MigrateDatabase<TContext>(this IHost host, int? retry = 0)
+        //public static IHost MigrateDatabase<TContext>(this IHost host, int? retry = 0)
+        public static IHost MigrateDatabase<TContext>(this IHost host)
         {
-            int retryForAvailability = retry.Value;
+            //int retryForAvailability = retry.Value;
 
             using (var scope = host.Services.CreateScope())
             {
@@ -24,28 +27,18 @@ namespace Discount.Grpc.Extensions
                 {
                     logger.LogInformation("Migrating postgresql database.");
 
-                    using var connection = new NpgsqlConnection(configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
-                    connection.Open();
+                    var retry = Policy.Handle<NpgsqlException>()
+                        .WaitAndRetry(
+                           retryCount: 5,
+                           sleepDurationProvider: retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),//2,4,8,16,32 sec
+                            onRetry: (exception, retryCount, context) =>
+                            {
+                                logger.LogError($"Retry {retryCount} of {context.PolicyKey} at {context.OperationKey}, due to: {exception}.");
+                            });
 
-                    using var command = new NpgsqlCommand
-                    {
-                        Connection = connection
-                    };
+                    retry.Execute(() => ExecuteMigrations(configuration));
 
-                    command.CommandText = "DROP TABLE IF EXISTS Coupon";
-                    command.ExecuteNonQuery();
-
-                    command.CommandText = @"CREATE TABLE Coupon(Id SERIAL PRIMARY KEY,
-                                                                ProductName VARCHAR(24) NOT NULL,
-                                                                Description TEXT,
-                                                                Amount INT)";
-                    command.ExecuteNonQuery();
-
-                    command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES ('IPhone X', 'IPhone Discount', 150);";
-                    command.ExecuteNonQuery();
-                    
-                    command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES ('Samsung 10', 'Samsung Discount', 100);";
-                    command.ExecuteNonQuery();
+                    //ExecuteMigrations(configuration);
 
                     logger.LogInformation("Migrated postgresql database.");
 
@@ -54,16 +47,41 @@ namespace Discount.Grpc.Extensions
                 {
                     logger.LogError(ex, "An error occurred while migrating the postgresql database");
 
-                    if (retryForAvailability < 50) //Convert this retry operation using polly for the microservices resilience.(It helps to make resilience of microservices with creating policies on retry and circut-breaker design patterns )
-                    {
-                        retryForAvailability++;
-                        System.Threading.Thread.Sleep(2000);
-                        MigrateDatabase<TContext>(host, retryForAvailability);
-                    }
+                    //remove manually retry polly policy
+                    //if (retryForAvailability < 50) //Convert this retry operation using polly for the microservices resilience.(It helps to make resilience of microservices with creating policies on retry and circut-breaker design patterns )
+                    //{
+                    //    retryForAvailability++;
+                    //    System.Threading.Thread.Sleep(2000);
+                    //    MigrateDatabase<TContext>(host, retryForAvailability);
+                    //}
                 }
             }
 
             return host;
+        }
+
+        private static void ExecuteMigrations(IConfiguration configuration)
+        {
+            using var connection = new NpgsqlConnection(configuration.GetValue<string>("DatabaseSettings:ConnectionString"));
+            connection.Open();
+            using var command = new NpgsqlCommand
+            {
+                Connection = connection
+            };
+            command.CommandText = "DROP TABLE IF EXISTS Coupon";
+            command.ExecuteNonQuery();
+
+            command.CommandText = @"CREATE TABLE Coupon(Id SERIAL PRIMARY KEY,
+                                                                ProductName VARCHAR(24) NOT NULL,
+                                                                Description TEXT,
+                                                                Amount INT)";
+            command.ExecuteNonQuery();
+
+            command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES ('IPhone X', 'IPhone Discount', 150);";
+            command.ExecuteNonQuery();
+
+            command.CommandText = "INSERT INTO Coupon(ProductName, Description, Amount) VALUES ('Samsung 10', 'Samsung Discount', 100);";
+            command.ExecuteNonQuery();
         }
 
     }

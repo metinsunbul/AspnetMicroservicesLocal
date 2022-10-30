@@ -332,5 +332,9 @@ Install-Package Polly
 --set Default project Services\Discount\Discount.API in Package Manager Console
 Install-Package Polly
 
+--Using Polly for database migration retryies for Discount.Grpc microservices
+--set Default project Services\Discount\Discount.Grpc in Package Manager Console
+Install-Package Polly
+
 
 

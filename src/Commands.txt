@@ -338,3 +338,15 @@ Install-Package Polly
 
 
 
+--HealthCeheck-watcdog 
+--the beloaw package automatically comes with .net 5 so no need to run the command
+Install-Package Microsoft.AspNetCore.Diagnostics.HealthChecks
+
+--Install required nuget package for mongodb in order to check healthcheck of catalog microservice since this service depends on mongo db
+--set Default project Services\Catalog\Catalog.API in Package Manager Console
+Install-Package AspNetCore.HealthChecks.MongoDb
+
+
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
+

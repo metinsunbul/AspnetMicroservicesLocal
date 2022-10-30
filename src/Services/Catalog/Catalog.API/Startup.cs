@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
@@ -37,6 +38,12 @@ namespace Catalog.API
             services.AddScoped<ICatalogContext, CatalogContext>();
             services.AddScoped<IProductRepository, ProductRepository>();
 
+            //Add HealthCheck
+            services.AddHealthChecks()
+                    .AddMongoDb(
+                            Configuration["DatabaseSettings:ConnectionString"], //Adding sub health check
+                            "Catalog MongoDB Health", 
+                            HealthStatus.Degraded);
             
         }
 
@@ -57,6 +64,8 @@ namespace Catalog.API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                //Add HealthCheck middleware
+                endpoints.MapHealthChecks("/hc");
             });
         }
     }

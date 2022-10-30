@@ -328,5 +328,9 @@ Install-Package Microsoft.Extensions.Http.Polly
 --set Default project Services\Ordering\Ordering.API in Package Manager Console
 Install-Package Polly
 
+--Using Polly for database migration retryies for Discount.API microservices
+--set Default project Services\Discount\Discount.API in Package Manager Console
+Install-Package Polly
+
 
 

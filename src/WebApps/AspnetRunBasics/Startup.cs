@@ -1,9 +1,12 @@
 using AspnetRunBasics.Services;
 using Common.Logging;
+using HealthChecks.UI.Client;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Hosting;
 using Polly;
 using Polly.Extensions.Http;
@@ -47,6 +50,11 @@ namespace AspnetRunBasics
                 .AddPolicyHandler(GetCircuitBreakerPolicy());
 
             services.AddRazorPages();
+
+            //Add Health Check
+            services.AddHealthChecks()
+                    //sub health check the target uri is healthy or not
+                    .AddUrlGroup(new Uri(Configuration["ApiSettings:GatewayAddress"]), "Ocelot API Gw", HealthStatus.Degraded);
         }
 
         private static IAsyncPolicy<HttpResponseMessage> GetRetryPolicy()
@@ -107,6 +115,12 @@ namespace AspnetRunBasics
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                //endpoints.MapHealthChecks("/hc");
+                endpoints.MapHealthChecks("/hc", new HealthCheckOptions()
+                {
+                    Predicate = _ => true,
+                    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+                });
             });
         }
     }

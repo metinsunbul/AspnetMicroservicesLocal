@@ -386,5 +386,14 @@ docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
 docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
 
 
+--set Default project WebApps\AspnetRunBasics   in Package Manager Console
+--Adding Health check for web client AspnetRunBasic which only checking OcelotApiGw as subhealth check
+--donwload the below package to  check the target uri is healthy or not
+Install-Package AspNetCore.HealthChecks.Uris
+Install-Package AspNetCore.HealthChecks.UI.Client -v 5.0.1 --for returning json instead of status(healthy, degraded..)
+
+
+
+
 
 

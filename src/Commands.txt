@@ -374,3 +374,17 @@ Install-Package Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCor
 Install-Package AspNetCore.HealthChecks.UI.Client -v 5.0.1 --for returning json instead of status(healthy, degraded..)
 
 
+--Adding Health check for Shopping.Aggregator 
+--Adding HealthCheck for Shopping.Aggregator  microservices with checking internal microservices(Add subhealth check for Category,basket,discount,ordering microservices)
+--In case of any these microservice are not working Shopping.Aggregator  microservices health status should be degraded or unhealth
+--set Default project ApiGateways\Shopping.Aggregator   in Package Manager Console
+--donwload the below package to  check the target uri is healthy or not
+Install-Package AspNetCore.HealthChecks.Uris
+Install-Package AspNetCore.HealthChecks.UI.Client -v 5.0.1 --for returning json instead of status(healthy, degraded..)
+
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
+
+
+
+

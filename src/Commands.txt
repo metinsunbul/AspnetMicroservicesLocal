@@ -368,4 +368,9 @@ Install-Package Microsoft.Extensions.Diagnostics.HealthChecks
 Install-Package AspNetCore.HealthChecks.Npgsql
 Install-Package AspNetCore.HealthChecks.UI.Client -v 5.0.1 --for returning json instead of status(healthy, degraded..)
 
+--Adding HealthCheck for Ordering api microservices with checking sql server and rabbitmq(Add subhealth check for mssql and rabbitmq)
+--set Default project Services\Ordering\Ordering.API in Package Manager Console
+Install-Package Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore -v 5.0.17
+Install-Package AspNetCore.HealthChecks.UI.Client -v 5.0.1 --for returning json instead of status(healthy, degraded..)
+
 

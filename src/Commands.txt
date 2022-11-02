@@ -393,7 +393,29 @@ Install-Package AspNetCore.HealthChecks.Uris
 Install-Package AspNetCore.HealthChecks.UI.Client -v 5.0.1 --for returning json instead of status(healthy, degraded..)
 
 
+--Web status applicaion for centralized microservice health monitoring using watchdog for visualizing health checks
+Install-Package AspNetCore.HealthChecks.UI -v 5.0.1
+Install-Package AspNetCore.HealthChecks.UI.InMemory.Storage -v 5.0.1
 
 
+--Containizer WebStatus(Using Container orchestrator suppor->right click on the project(WebStatus) add container orchestrator support)
+--this'll add docker file and update docker-compose.yml and docker-compose.override.yml file accordingly
+--and test them all on the docker environment
+--How to override ASP.NET Core configuration array settings using environment variables
+--https://stackoverflow.com/questions/37657320/how-to-override-asp-net-core-configuration-array-settings-using-environment-vari
+--Serilog__WriteTo__0__Args__path (All platforms)
+--using the above pattern to override HealthChecks-UI configuration parameter in appsettings.json from docker-compose.override.yml
+
+-Since some microservices had been changed (Adding health check ) we should rebuild the docker images
+--Rebuilding all docker microservice
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up --build
+
+docker-compose -f docker-compose.yml -f docker-compose.override.yml up -d
+docker-compose -f .\docker-compose.yml -f .\docker-compose.override.yml down
 
 
+--Distributing Tracing with OpenTelemetry using Zipkin which allows us to monitor distributed applications
+--Monitoring and Observability in Cloud-Native ASP.NET Core apps
+https://devblogs.microsoft.com/dotnet/monitoring-and-observability-in-cloud-native-asp-net-core-apps/
+Improvements in .NET Core 3.0 for troubleshooting and monitoring distributed apps
+https://devblogs.microsoft.com/dotnet/improvements-in-net-core-3-0-for-troubleshooting-and-monitoring-distributed-apps/
